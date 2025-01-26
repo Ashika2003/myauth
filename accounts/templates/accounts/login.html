@@ -1,0 +1,112 @@
+{% extends 'accounts/index.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+    /* General container styling */
+    .form-container {
+        background-color: #1c1c1c; /* Dark background */
+        border-radius: 12px;
+        padding: 20px;
+        max-width: 500px;
+        margin: auto;
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.5);
+        color: #fff;
+    }
+
+    /* Header styling */
+    .form-heading {
+        font-family: 'Times New Roman', Times, serif;
+        font-size: 24px;
+        margin: 0;
+        color: #ff4d4d; /* Red color for the heading */
+    }
+
+    /* Form fields */
+    .form-field {
+        margin-bottom: 15px;
+    }
+
+    .form-label {
+        display: block;
+        font-size: 16px;
+        margin-bottom: 5px;
+        color: #fff;
+    }
+
+    input, select, textarea {
+        width: 100%;
+        padding: 8px 12px;
+        font-size: 14px;
+        color: #000;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        outline: none;
+    }
+
+    input:focus, select:focus, textarea:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+
+    /* Error messages */
+    .errorlist {
+        list-style: none;
+        padding: 0;
+        margin: 5px 0 0;
+    }
+
+    .error-text {
+        font-size: 14px;
+        color: #ff4d4d;
+    }
+
+    /* Submit button */
+    .submit-button {
+        background-color: #28a745;
+        color: #fff;
+        font-size: 16px;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        width: 100%;
+        transition: background-color 0.3s ease;
+    }
+
+    .submit-button:hover {
+        background-color: #218838;
+    }
+</style>
+
+<div class="text-white p-4 mx-auto form-container">
+    <div class="alert alert-danger p-2">
+        <h2 class="form-heading">LOGIN</h2>
+    </div>
+    <div class="form-shadow p-12 mx-auto">
+        <form action="/login/" method="POST">
+            {% csrf_token %}
+            {% for fm in forms %}
+            <p class="form-field">
+                <label class="form-label">{{fm.label}}</label>
+                {{fm}}
+                {% if fm.errors %}
+                <ul class="errorlist">
+                    {% for error in fm.errors %}
+                        <li class="error-text">{{ error }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </p>
+            <br>
+            {% endfor %}
+            <input class="submit-button" type="submit" value="SUBMIT">
+        </form>
+        <p>
+            <a href="{% url 'password_reset' %}" class="btn btn-link">Forgot Password?</a>
+        </p>
+        
+    </div>
+</div>
+
+{% endblock content %}
